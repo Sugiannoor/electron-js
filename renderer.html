@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Electron Silent Print</title>
+  </head>
+  <body>
+    <h1>Demo Silent Print</h1>
+    <button id="btnList">Cek Printer</button>
+    <button id="btnPDF">Simpan ke PDF</button>
+    <button id="btnWOYA">Cetak ke WOYA</button>
+    <pre id="out"></pre>
+
+    <script>
+      document.getElementById("btnList").addEventListener("click", async () => {
+        const printers = await window.printerAPI.listPrinters();
+        document.getElementById("out").textContent = JSON.stringify(
+          printers.map((p) => p.name),
+          null,
+          2
+        );
+      });
+
+      document.getElementById("btnPDF").addEventListener("click", async () => {
+        try {
+          await window.printerAPI.printToPDF();
+          alert("Job terkirim ke Microsoft Print to PDF (cek dialog Save As)");
+        } catch (e) {
+          alert("Gagal print PDF: " + e);
+        }
+      });
+
+      document.getElementById("btnWOYA").addEventListener("click", async () => {
+        try {
+          await window.printerAPI.printToDevice("WOYA Portable 80mm");
+          alert("Job terkirim ke WOYA Portable 80mm");
+        } catch (e) {
+          alert("Gagal print ke WOYA: " + e);
+        }
+      });
+    </script>
+  </body>
+</html>
