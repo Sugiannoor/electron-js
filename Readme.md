@@ -38,3 +38,6 @@ electron-printer-app/
 
 dont forget npm install electron --save-dev
 use npm start (based on package.json)
+
+Note: thermal perlu driver tambahan WinUSB/libusbK (Zadig), escpos
+npm install escpos escpos-usb and need install driver ke printer nya

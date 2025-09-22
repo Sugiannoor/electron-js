@@ -84,3 +84,31 @@ ipcMain.handle("print:device", async (event, deviceName) => {
 
   return printToDevice(html, deviceName, false);
 });
+
+ipcMain.handle("print:escpos", async () => {
+  return new Promise((resolve, reject) => {
+    try {
+      const device = new escpos.USB();
+      const printer = new escpos.Printer(device);
+
+      device.open(() => {
+        printer
+          .align("CT")
+          .text("TOKO MAJU JAYA")
+          .align("LT")
+          .text("Indomie   3 x 3500   10500")
+          .text("Aqua Botol 2 x 4000   8000")
+          .drawLine()
+          .align("RT")
+          .text("TOTAL: 18500")
+          .align("CT")
+          .text("Terima kasih 🙏")
+          .cut()
+          .close();
+        resolve(true);
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+});
